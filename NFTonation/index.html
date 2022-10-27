@@ -7,12 +7,23 @@
     <link rel="stylesheet" type="text/css" href="styles/metamask.css">
     <link rel="stylesheet" type="text/css" href="styles/start-page.css">
     <link rel="stylesheet" type="text/css" href="styles/vote-page.css">
+    <link rel="stylesheet" type="text/css" href="styles/header.css">
     <script src="scripts/start-page.js" type="module" defer></script>
     <script src="scripts/voting-page.js" type="module" defer></script>
+    <script src="scripts/header.js" type="module" defer></script>
 </head>
 <body>
 <header>
-    <h1>Header</h1>
+    <div id="selected-nft">
+        <div class="nft-display"></div>
+    </div>
+    <div id="contract-timer">
+        <div class="countdown"></div>
+    </div>
+    <div id="connected-wallet">
+        <div id="wallet-display"><p>NO WALLET SELECTED</p></div>
+    </div>
+    <div id="navigation"></div>
 </header>
 <main>
     <div class="start-page">
@@ -31,11 +42,11 @@
             </div>
 
             <p>2. Check you Wallet</p>
-            <div id="wallet-id"><p>Your wallet is not connected yet.</p></div>
+            <div id="wallet-id"><span>Your wallet is not connected yet.</span></div>
 
             <p>3. Go to Voting Page</p>
             <div class="voting-page-button">
-                <button class="button" id="vote-page-button">
+                <button class="button" id="vote-page-button" disabled>
                     <img src="images/voting.png" alt="voting logo">
                     Go to Voting Page
                 </button>

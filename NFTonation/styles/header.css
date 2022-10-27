@@ -1,0 +1,64 @@
+header {
+    height: 150px;
+    display: grid;
+    grid-template-areas:
+    "nft countdown navigation"
+    "nft wallet navigation";
+    grid-template-rows: 3fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    margin-bottom: 20px;
+}
+
+#selected-nft {
+    grid-area: nft;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nft-display {
+    width: 90%;
+    height: 90%;
+    background: #eaeaf3;
+    border: 2px solid #acacc0;
+}
+
+#contract-timer {
+    grid-area: countdown;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown {
+    width: 95%;
+    height: 90%;
+    background: #eaeaf3;
+    border: 2px solid #acacc0;
+}
+
+#connected-wallet {
+    grid-area: wallet;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#wallet-display {
+    width: 60%;
+    height: 90%;
+    background: #eaeaf3;
+    border: 2px solid #acacc0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wallet-display p {
+    margin: 0;
+    font-weight: bold;
+}
+
+#navigation {
+    grid-area: navigation;
+}

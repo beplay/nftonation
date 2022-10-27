@@ -3,7 +3,6 @@
     align-items: center;
     flex-direction: row;
     justify-content: space-around;
-    padding: 5rem 0;
     height: 100%;
 }
 
@@ -100,5 +99,9 @@
     .org-image {
         width: 20rem;
         height: 20rem;
+    }
+
+    .card-info {
+        padding: 0.5rem;
     }
 }

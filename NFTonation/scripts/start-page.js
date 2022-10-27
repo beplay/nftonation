@@ -7,6 +7,9 @@ const installAlert = document.getElementById("install-alert");
 const startPage = document.getElementsByClassName("start-page");
 const votePage = document.getElementsByClassName("vote-page");
 const votingPageButton = document.getElementById("vote-page-button");
+const connectedWallet = document.getElementById("wallet-display");
+
+export let walletId = ``;
 
 connectButton.addEventListener("click", () => {
     if (typeof window.ethereum !== "undefined") {
@@ -14,7 +17,9 @@ connectButton.addEventListener("click", () => {
             .request({ method: "eth_requestAccounts" })
             .then((accounts) => {
                 const account = accounts[0]
-                walletID.innerHTML = `<p>Wallet connected: ${account}</p>`;
+                walletId = `<p>${account}</p>`;
+                walletID.innerHTML = `<span>Wallet connected: ${account}</span>`;
+                votingPageButton.disabled = false
             }).catch((error) => {
             console.log(error, error.code);
         });
@@ -31,4 +36,5 @@ reloadButton.addEventListener("click", () => {
 votingPageButton.addEventListener("click", () => {
     startPage[0].style.display = "none";
     votePage[0].style.display = "flex";
+    connectedWallet.innerHTML = walletId;
 })
