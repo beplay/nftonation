@@ -30,5 +30,5 @@ reloadButton.addEventListener("click", () => {
 
 votingPageButton.addEventListener("click", () => {
     startPage[0].style.display = "none";
-    votePage[0].classList.remove("hidden-div");
+    votePage[0].style.display = "flex";
 })

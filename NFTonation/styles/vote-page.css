@@ -1,5 +1,5 @@
 .vote-page {
-    display: flex;
+    display: none;
     align-items: center;
     flex-direction: row;
     justify-content: space-around;
@@ -80,7 +80,7 @@
     font-size: 1.5rem;
     font-weight: 600;
     padding: 1.5rem 0;
-    color: white;
+    color: black;
     cursor: pointer;
     border-top: 2px solid black;
 }
@@ -89,4 +89,16 @@
 .btn-unicef,
 .btn-redcross {
     transition: all 0.5ms ease;
+}
+
+/* ---- MEDIA QUERIES ---- */
+@media screen and (max-height: 800px ) {
+    .org-card {
+        width: 20rem;
+    }
+
+    .org-image {
+        width: 20rem;
+        height: 20rem;
+    }
 }
