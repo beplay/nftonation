@@ -1,0 +1,32 @@
+.start-container {
+    height: 60%;
+    width: 50%;
+    background: #eaeaf3;
+    border: 2px solid #acacc0;
+    border-radius: 5px;
+    box-shadow: 5px 5px 2px lightgray;
+    display: block;
+}
+
+.start-container p {
+    font-weight: bold;
+    font-size: x-large;
+
+}
+
+.metamask-button,
+.voting-page-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#vote-page-button {
+    margin-bottom: 16px;
+    color: #eb874b;
+}
+
+#vote-page-button img {
+    width: 36px;
+    margin-right: 16px;
+}
