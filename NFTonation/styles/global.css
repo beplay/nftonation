@@ -9,3 +9,7 @@ body {
 .hidden-div {
     display: none;
 }
+
+main {
+    height: 100%;
+}
