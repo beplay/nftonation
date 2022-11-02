@@ -88,9 +88,9 @@ contract Play is Ground {
         addEntry(name, 0, msg.sender);
     }
 
-    function addETH() external payable {
+    function addETH(uint256 amount) external payable {
         requireHasAccount();
-        addEntry(getName(msg.sender), msg.value, msg.sender);
+        addEntry(getName(msg.sender), amount, msg.sender);
         emit Something("Say thank you in the front end");
     }
 
