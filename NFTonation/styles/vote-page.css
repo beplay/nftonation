@@ -1,0 +1,107 @@
+.vote-page {
+    display: none;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.org-card {
+    width: 25rem;
+    border: 2px solid black;
+    overflow: hidden;
+    box-shadow: 15px 15px 6px lightgray;
+    transition: all 0.5ms ease;
+    margin-bottom: 5rem;
+}
+
+.org-image{
+    width: 25rem;
+    height: 25rem;
+    object-fit: cover;
+    vertical-align: middle;
+    background: white;
+}
+
+.card-info {
+    display: flex;
+    justify-content: space-evenly;
+    background: grey;
+    color: black;
+    padding: 2rem 0;
+}
+
+.org-votes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+}
+
+.votes-number-wwf,
+.votes-number-unicef,
+.votes-number-redcross {
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.votes-text {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.line {
+    width: 0.1rem;
+    background: black;
+}
+
+.org-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.org-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.org-website {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.card-btn {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 1.5rem 0;
+    color: black;
+    cursor: pointer;
+    border-top: 2px solid black;
+}
+
+.btn-wwf,
+.btn-unicef,
+.btn-redcross {
+    transition: all 0.5ms ease;
+}
+
+/* ---- MEDIA QUERIES ---- */
+@media screen and (max-height: 800px ) {
+    .org-card {
+        width: 20rem;
+    }
+
+    .org-image {
+        width: 20rem;
+        height: 20rem;
+    }
+
+    .card-info {
+        padding: 0.5rem;
+    }
+}
