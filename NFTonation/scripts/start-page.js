@@ -1,4 +1,6 @@
 // ---- METAMASK ELEMENTS ----
+import {setupContracts} from "./voting-page"
+
 const connectButton = document.getElementById("connect-button");
 const walletID = document.getElementById("wallet-id");
 const reloadButton = document.getElementById("reload-button");
@@ -10,9 +12,10 @@ const votingPageButton = document.getElementById("vote-page-button");
 const connectedWallet = document.getElementById("wallet-display");
 
 export let walletId = ``;
+export const ethereum = window.ethereum
 
 connectButton.addEventListener("click", () => {
-    if (typeof window.ethereum !== "undefined") {
+    if (typeof ethereum !== "undefined") {
         ethereum
             .request({ method: "eth_requestAccounts" })
             .then((accounts) => {
@@ -37,4 +40,5 @@ votingPageButton.addEventListener("click", () => {
     startPage[0].style.display = "none";
     votePage[0].style.display = "flex";
     connectedWallet.innerHTML = walletId;
+    setupContracts()
 })
