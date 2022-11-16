@@ -1,46 +1,31 @@
-# Getting Started with Create React App
+# Setup NFTonation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Start hardhat: `npx hardhat node`
+2. Start react: `npm start`
+7. In Metamask -> Settings -> Networks -> Localhost set the `Chain ID` to `31337` (you may have to restart your browser)
+7. Import one of the private keys from the Hardhat terminal into the Metamask wallet as a new account
+8. Switch Metamask to Localhost, it should connect to the Hardhat node
+3. Add smart contract from react project to Remix and compile
+4. Copy the complete abi from the compiler page and paste it into the react project: `abi.ts`
+4. Connect Remix environment to Hardhat local
+5. Deploy TON first, and copy its address from the generated contract
+6. Deploy NFTonation using the TON address
+7. Copy-paste the NFTonation address to the react project: `StartPage.tsx` -> `contractAddress=0x...`
+7. Open localhost:3000
+9. Activate `Customize transaction nonce` in the Metamask advanced settings
+8. `Connect your wallet` using one of the Hardhat accounts
+9. **`NOTE: LOCAL HARDHAT NODE TAKES SOMETIMES UP TO 30 MINUTES TO MINE A TRANSACTION`**
+10. In Remix, you can activate `listen on all transaction` so you see your transactions from the frontend, too
 
-## Available Scripts
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Voting
+1. Connect your wallet
+2. Go to voting page
+3. on the bottom, trigger `Toggle Vote`, this should enable the voting
+4. If asked for a Nonce, try `Show Nonce` and check the console
+5. `Log all Voters` should console.log a string with the current voter and their status
+6. Choose an org and vote for it
+7. Then wait, the vote count should update automatically
+8. If you want to vote again, try `Reset Vote Status` and then try again (you may have to wait a few seconds)
+9. To go to the login page, use `Toggle View`
+10. `Add me as a voter` and `Transfer NFT` are not implemented yet, or have no use
