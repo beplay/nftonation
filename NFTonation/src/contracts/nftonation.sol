@@ -2,8 +2,57 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract NFTonation {
+
+interface iTON {
+    function transfer(address to) external;
+    function showNFTBal(address owner) external view returns (uint256);
+}
+
+// deploy TON first, then NFTonation
+
+contract TON is ERC721, Ownable, iTON {
+    using Counters for Counters.Counter;
+
+    Counters.Counter private _tokenIdCounter;
+    uint256 private tokId;
+
+
+    constructor() ERC721("NFTonation", "TON") {
+        tokId = safeMint(address(this));
+    }
+
+    function _baseURI() internal pure override returns (string memory) {
+        return "Tonation";
+    }
+
+    function safeMint(address to) public onlyOwner returns (uint256) {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+        return tokenId;
+    }
+
+    function transfer(address to) external onlyOwner {
+        safeTransferFrom(address(this)
+                      , to
+                      , tokId
+                      , "");
+    }
+
+    function showNFTBal(address owner) external view returns (uint256) {
+        return balanceOf(owner);
+    }
+
+}
+
+contract NFTonation is IERC721Receiver {
+    iTON nft;
+
     struct Voter {
         bool valid;
         bool voted;
@@ -15,25 +64,51 @@ contract NFTonation {
         bool valid;
     }
 
-    mapping(address => Voter) voters;
-    mapping(address => Org) orgs;
+    mapping(address => Voter) public voters;
+    mapping(address => Org) public orgs;
 
     address ownerAddr;
 
-    address[] voter_addresses;
-    address[] org_addresses;
+    address[] public voter_addresses;
+    address[] public org_addresses;
 
     address org_receiver;
+    uint256 private org_addr_length;
+    uint256 private voter_addr_length;
 
     bool vote_open = false;
     bool vote_completed = false;
 
-    constructor() {
+    event VoteSubmitted(string voted);
+
+    constructor(address tonation) {
+        nft = iTON(tonation);
         ownerAddr = msg.sender;
         addVoter(ownerAddr);
         addOrg("WWF", address(0x1));
         addOrg("Unicef", address(0x2));
         addOrg("Red Cross", address(0x3));
+    }
+
+    function getOrgAddLength() external view returns (uint256) {
+        return org_addr_length;
+    }
+
+    function getVoterAddLength() external view returns (uint256) {
+        return voter_addr_length;
+    }
+
+
+    function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
+        return IERC721Receiver.onERC721Received.selector;
+    }
+
+    function transferToken(address to) external {
+        nft.transfer(to);
+    }
+
+    function showNFTBal(address owner) public view returns (uint256) {
+        return nft.showNFTBal(owner);
     }
 
     function addCurrentVoter() external {
@@ -51,12 +126,14 @@ contract NFTonation {
         requireNoAccount();
         voter_addresses.push(addr);
         voters[addr] = Voter(true, false);
+        voter_addr_length += 1;
     }
 
     function addOrg(string memory name, address addr) internal {
         requireNoAccount(addr);
         org_addresses.push(addr);
         orgs[addr] = Org(name, 0, true);
+        org_addr_length += 1;
     }
 
     function updateVoteOpen() external view {
@@ -79,13 +156,15 @@ contract NFTonation {
     function vote(string memory org_name) external {
         requireVoteOpen();
         requireNotVoted();
-        
+
         address org_addr = getOrgAddr(org_name);
         requireAddrNotNull(org_addr);
         requireHasOrgAccount(org_addr);
-        
+
         setVoted();
         orgs[org_addr].num_votes += 1;
+
+        emit VoteSubmitted("voted");
     }
 
     function setVoted() internal {
@@ -108,7 +187,7 @@ contract NFTonation {
         string memory temp = "";
         for (uint256 i = 0; i < org_addresses.length; i++) {
             temp = vote_count;
-            vote_count = string.concat(temp, orgs[org_addresses[i]].name, ":", Strings.toString(orgs[org_addresses[i]].num_votes), "-"); 
+            vote_count = string.concat(temp, orgs[org_addresses[i]].name, ":", Strings.toString(orgs[org_addresses[i]].num_votes), "-");
         }
         return vote_count;
     }
@@ -119,7 +198,7 @@ contract NFTonation {
             temp = entries;
             string memory voted = "";
             if (voters[voter_addresses[i]].voted) voted="voted"; else voted="not voted";
-            entries = string.concat(temp, Strings.toHexString(voter_addresses[i]), ":", voted, "-"); 
+            entries = string.concat(temp, Strings.toHexString(voter_addresses[i]), ":", voted, "-");
         }
         return entries;
     }
