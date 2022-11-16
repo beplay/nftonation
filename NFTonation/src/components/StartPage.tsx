@@ -3,6 +3,7 @@ import "../styles/StartPage.css"
 import "../styles/MetaMask.css"
 import "../styles/Header.css"
 import "../styles/VotePage.css"
+import "../styles/Controls.css"
 import metamask from "../images/metamask.png"
 import voting from "../images/voting.png"
 import {BigNumber, Contract, ethers, providers, Signer} from "ethers";
@@ -13,9 +14,8 @@ import redcross from "../images/red-cross.png";
 
 export function StartPage(): ReactElement {
 
-    const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+    const contractAddress = "0x9A676e781A523b5d0C0e43731313A708CB607508";
 
-    const [isMMInstalled, setIsMMInstalled] = useState<boolean>(false);
     const ethereum = (window as any).ethereum;
     const [ethAddress, setEthAddress] = useState<string | null>(null);
     const [ethBalance, setEthBalance] = useState<BigNumber>(BigNumber.from(0));
@@ -29,21 +29,27 @@ export function StartPage(): ReactElement {
     const [numVoteWWF, setNumVoteWWF] = useState<number>(0)
     const [numVoteUnicef, setNumVoteUnicef] = useState<number>(0)
     const [numVoteRedCross, setNumVoteRedCross] = useState<number>(0)
-    const [orgOverview, setOrgOverview] = useState([
-        {name: "WWF", votes: 0},
-        {name: "Unicef", votes: 0},
-        {name: "Red Cross", votes: 0}
-    ])
 
+    contract_ro?.on("VoteSubmitted", () => {
+        updateVoteCount()
+    })
 
-    useEffect(() => {
-        if (ethereum) {
-            setIsMMInstalled(true);
-        } else {
-            console.log(mmAlert)
-            setMMAlert(true)
+    async function updateVoteCount(){
+        let orgAddrLength = await contract_ro?.getOrgAddLength() as BigNumber
+        for (let i = 0; i < orgAddrLength.toNumber(); i++) {
+            let orgAddr = await contract_ro?.org_addresses(i)
+            let orgs = await contract_ro?.orgs(orgAddr)
+            switch (orgs.name) {
+                case "WWF": setNumVoteWWF(orgs.num_votes.toNumber())
+                    break
+                case "Unicef": setNumVoteUnicef(orgs.num_votes.toNumber())
+                    break
+                case "Red Cross": setNumVoteRedCross(orgs.num_votes.toNumber())
+                    break
+            }
         }
-    }, [ethereum]);
+        console.log("vote count updated")
+    }
 
     async function setupContracts(): Promise<void> {
         const provider = await new providers.Web3Provider(ethereum)
@@ -62,27 +68,6 @@ export function StartPage(): ReactElement {
         contract_rw?.resetVoteStatus()
     }
 
-    async function getVoteCount(){
-        let votes = await contract_ro?.getVoteCount()
-        // console.log(votes)
-    //     WWF:1-Unicef:0-Red Cross:3-
-        let parse = votes as string
-        let arr = parse.split("-")
-        // let newState: any
-        // arr.forEach((e) => {
-        //     newState = orgOverview.map(temp => {
-        //         // console.log(e.split(":")[1])
-        //         // console.log(temp)
-        //         return {
-        //             ...temp,
-        //             votes: e.split(":")[1]
-        //         }
-        //     })
-        // })
-        // setOrgOverview(newState)
-
-        console.log(arr)
-    }
 
     async function getAllVoters() {
         let entries = await contract_rw?.getAllVoters()
@@ -167,7 +152,7 @@ export function StartPage(): ReactElement {
                 </div>
             </div>
             <div>
-                <div className="vote-header" style={{display: showNextView ? "flex" : "none"}}>
+                <div className="vote-header" style={{display: showNextView ? "grid" : "none"}}>
                     <div id="selected-nft">
                         <div className="nft-display"></div>
                     </div>
@@ -177,7 +162,7 @@ export function StartPage(): ReactElement {
                     <div id="connected-wallet">
                         <div id="wallet-display"><p>
                             {ethAddress ? ethAddress : "NO WALLET SELECTED"}
-                            </p></div>
+                        </p></div>
                     </div>
                     <div id="navigation"></div>
                 </div>
@@ -186,7 +171,7 @@ export function StartPage(): ReactElement {
                         <img className="org-image" src={wwf} alt="wwf logo"/>
                         <div className="card-info">
                             <div className="org-votes">
-                                <span className="votes-number-wwf">200</span>
+                                <span className="votes-number-wwf">{numVoteWWF}</span>
                                 <span className="votes-text">VOTES</span>
                             </div>
                             <div className="line"></div>
@@ -202,7 +187,7 @@ export function StartPage(): ReactElement {
                         <img className="org-image" src={unicef} alt="unicef logo"/>
                         <div className="card-info">
                             <div className="org-votes">
-                                <span className="votes-number-unicef">300</span>
+                                <span className="votes-number-unicef">{numVoteUnicef}</span>
                                 <span className="votes-text">VOTES</span>
                             </div>
                             <div className="line"></div>
@@ -217,7 +202,7 @@ export function StartPage(): ReactElement {
                         <img className="org-image" src={redcross} alt="redcross logo"/>
                         <div className="card-info">
                             <div className="org-votes">
-                                <span className="votes-number-redcross">400</span>
+                                <span className="votes-number-redcross">{numVoteRedCross}</span>
                                 <span className="votes-text">VOTES</span>
                             </div>
                             <div className="line"></div>
@@ -229,30 +214,32 @@ export function StartPage(): ReactElement {
                         <button className="card-btn btn-redcross" onClick={voteRedCross}>VOTE</button>
                     </div>
                 </div>
-                <div>
-                    <button onClick={addNewVoter}>Add me as a Voter</button>
-                </div>
-                <div>
-                    <button onClick={toggleVoteProcess}>Toggle Vote</button>
-                    <output>{voteInProgress ? "Vote active" : "Vote stopped"}</output>
-                </div>
-                <div>
-                    <button>Transfer NFT</button>
-                </div>
-                <div>
-                    <button onClick={toggleView}>Toggle View</button>
-                </div>
-                <div>
-                    <button onClick={resetVoteStatus}>Reset Vote Status</button>
-                </div>
-                <div>
-                    <button onClick={getAllVoters}>Log all Voters</button>
-                </div>
-                <div>
-                    <button onClick={getVoteCount}>Get Vote Count</button>
-                </div>
-                <div>
-                    <button onClick={getNonce}>Show Nonce</button>
+                <div className="controls">
+                    <div>
+                        <button onClick={addNewVoter}>Add me as a Voter</button>
+                    </div>
+                    <div>
+                        <button onClick={toggleVoteProcess}>Toggle Vote</button>
+                        <output>{voteInProgress ? "Vote active" : "Vote stopped"}</output>
+                    </div>
+                    <div>
+                        <button>Transfer NFT</button>
+                    </div>
+                    <div>
+                        <button onClick={toggleView}>Toggle View</button>
+                    </div>
+                    <div>
+                        <button onClick={resetVoteStatus}>Reset Vote Status</button>
+                    </div>
+                    <div>
+                        <button onClick={getAllVoters}>Log all Voters</button>
+                    </div>
+                    <div>
+                        <button onClick={updateVoteCount}>Get Vote Count</button>
+                    </div>
+                    <div>
+                        <button onClick={getNonce}>Show Nonce</button>
+                    </div>
                 </div>
             </div>
         </div>
