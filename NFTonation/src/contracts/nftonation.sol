@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 
 interface iTON {
-    function transfer(address to) external;
+    function transfer(address to, uint256 tokenId) external;
     function showNFTBal(address owner) external view returns (uint256);
 }
 
@@ -37,10 +37,10 @@ contract TON is ERC721, Ownable, iTON {
         return tokenId;
     }
 
-    function transfer(address to) external onlyOwner {
-        safeTransferFrom(address(this)
+    function transfer(address to, uint256 _tokenId) external {
+        safeTransferFrom(address(msg.sender)
                       , to
-                      , tokId
+                      , _tokenId
                       , "");
     }
 
@@ -77,11 +77,15 @@ contract NFTonation is IERC721Receiver {
     uint256 private voter_addr_length;
 
     bool vote_open = false;
-    bool vote_completed = false;
 
     event VoteSubmitted(string voted);
+    event VotingStarted(uint256);
+    event VotingDuration(uint256);
 
-    uint256 startTime;
+    uint256 public startTime;
+    uint256 public durationMinutes;
+
+    uint256 tokenId;
 
     constructor(address tonation) {
         nft = iTON(tonation);
@@ -90,7 +94,6 @@ contract NFTonation is IERC721Receiver {
         addOrg("WWF", address(0x1));
         addOrg("Unicef", address(0x2));
         addOrg("Red Cross", address(0x3));
-        startTime = getBlockTime();
     }
 
     function getBlockTime() public view returns (uint256) {
@@ -99,6 +102,11 @@ contract NFTonation is IERC721Receiver {
 
     function requireXMinutesOld(uint256 x) internal view {
         require(getBlockTime() > (startTime + x * 1 minutes), "Vote ongoing");
+    }
+
+    function requireVotingOpen() internal view {
+        require(vote_open == true, "Voting closed");
+        require(getBlockTime() <= (startTime + durationMinutes * 1 minutes), "Voting inactive");
     }
 
     function getOrgAddLength() external view returns (uint256) {
@@ -114,9 +122,10 @@ contract NFTonation is IERC721Receiver {
         return IERC721Receiver.onERC721Received.selector;
     }
 
-    function transferToken(address to) external {
-        requireXMinutesOld(1);  // transfer allowed only after 1 minute
-        nft.transfer(to);
+    function transferToken() external {
+        requireVoteInactive();
+        requireReceiverSet();
+        nft.transfer(org_receiver, tokenId);
     }
 
     function showNFTBal(address owner) public view returns (uint256) {
@@ -130,7 +139,7 @@ contract NFTonation is IERC721Receiver {
     function setReceiver(address _receiver) external {
         requireOwner();
         requireHasOrgAccount(_receiver);
-        requireVoteCompleted();
+        requireVoteInactive();
         org_receiver = _receiver;
     }
 
@@ -148,12 +157,14 @@ contract NFTonation is IERC721Receiver {
         org_addr_length += 1;
     }
 
-    function updateVoteOpen() external view {
-        // check timer and update vote_open to true if countdown is 0
-        // also update vote_completed
-        if (!vote_open) {
-
-        }
+    function startVoting(uint256 _durationMinutes, uint256 _tokenId) public {
+        requireVoteInactive();
+        startTime = getBlockTime();
+        durationMinutes = _durationMinutes;
+        vote_open = true;
+        tokenId = _tokenId;
+        emit VotingStarted(startTime);
+        emit VotingDuration(_durationMinutes);
     }
 
     function resetVoteStatus() external {
@@ -161,13 +172,14 @@ contract NFTonation is IERC721Receiver {
     }
 
     function toggleVotingProcess() external {
-
+        // requireVoteInactive();
+        // startVoting(1);
         vote_open = !vote_open;
     }
 
 
     function vote(string memory org_name) external {
-        requireVoteOpen();
+        requireVotingOpen();
         requireNotVoted();
 
         address org_addr = getOrgAddr(org_name);
@@ -249,15 +261,15 @@ contract NFTonation is IERC721Receiver {
         require(msg.sender == ownerAddr, "You are not the owner");
     }
 
-    function requireVoteOpen() internal view {
-        require(vote_open == true, "No vote ongoing");
-    }
-
-    function requireVoteCompleted() internal view {
-        require(vote_completed == true, "Voting must happen first");
+    function requireVoteInactive() internal view {
+        require(vote_open == false, "Vote ongoing");
     }
 
     function requireAddrNotNull(address _addr) internal pure {
         require(_addr != address(0x0), "Org not found");
+    }
+
+    function requireReceiverSet() internal view {
+        require(org_receiver != address(0x0), "Set receiver first");
     }
 }
