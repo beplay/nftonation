@@ -16,11 +16,9 @@
     justify-content: center;
 }
 
-.nft-display {
-    width: 90%;
-    height: 90%;
-    background: #eaeaf3;
-    border: 2px solid #acacc0;
+.nft-display .App-logo {
+    max-width: 100%;
+    height: auto;
 }
 
 #contract-timer {
@@ -30,12 +28,6 @@
     justify-content: center;
 }
 
-.countdown {
-    width: 95%;
-    height: 90%;
-    background: #eaeaf3;
-    border: 2px solid #acacc0;
-}
 
 #connected-wallet {
     grid-area: wallet;
@@ -47,8 +39,6 @@
 #wallet-display {
     width: 60%;
     height: 90%;
-    background: #eaeaf3;
-    border: 2px solid #acacc0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,3 +52,43 @@
 #navigation {
     grid-area: navigation;
 }
+
+#countdown-endtime {
+    margin-bottom: 0;
+}
+
+.countdown {
+    width: 95%;
+    height: 90%;
+    background: #eaeaf3;
+    border: 2px solid #acacc0;
+}
+
+.countdown ul {
+    padding: 0;
+    margin: 0;
+}
+
+.countdown li {
+    display: inline-block;
+    font-size: 1.5em;
+    list-style-type: none;
+    padding: 1em;
+    text-transform: uppercase;
+  }
+  
+.countdown li span {
+    display: block;
+    font-size: 4.5rem;
+}
+
+@media all and (max-width: 768px) {
+       
+    .countdown li {
+      font-size: calc(1.125rem * 0.75);
+    }
+    
+    .countdown li span {
+      font-size: calc(3.375rem * 0.75);
+    }
+  }

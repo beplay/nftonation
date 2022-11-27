@@ -11,6 +11,8 @@ import {abi} from "./abi";
 import wwf from "../images/wwf.png";
 import unicef from "../images/unicef.png";
 import redcross from "../images/red-cross.png";
+import logo from '../images/NFTonation.png';
+
 
 export function StartPage(): ReactElement {
 
@@ -122,8 +124,8 @@ export function StartPage(): ReactElement {
     return (
         <div>
             <div className="start-page" style={{display: !showNextView ? "flex" : "none"}}>
+                <img src={logo} className="App-logo" alt="logo" />
                 <div className="start-container">
-
                     <p>1. Login to Metamask</p>
                     <div className="metamask-button">
                         <button className="button" id="connect-button" onClick={connectMetamaskWallet}>
@@ -136,7 +138,7 @@ export function StartPage(): ReactElement {
                         </div>
                     </div>
 
-                    <p>2. Check you Wallet</p>
+                    <p>2. Check your Wallet</p>
                     <div id="wallet-id"><span>
                         {ethAddress ? ethAddress : "Your wallet is not yet connected"}
                     </span></div>
@@ -154,10 +156,20 @@ export function StartPage(): ReactElement {
             <div>
                 <div className="vote-header" style={{display: showNextView ? "grid" : "none"}}>
                     <div id="selected-nft">
-                        <div className="nft-display"></div>
+                        <div className="nft-display">
+                            <img src={logo} className="App-logo" alt="logo" />
+                        </div>
                     </div>
                     <div id="contract-timer">
-                        <div className="countdown"></div>
+                        <div className="countdown">
+                            <p id="countdown-endtime">endtime</p>
+                            <ul>
+                                <li><span id="days">00</span>days</li>
+                                <li><span id="hours">00</span>Hours</li>
+                                <li><span id="minutes">00</span>Minutes</li>
+                                <li><span id="seconds">00</span>Seconds</li>
+                            </ul>
+                        </div>
                     </div>
                     <div id="connected-wallet">
                         <div id="wallet-display"><p>
