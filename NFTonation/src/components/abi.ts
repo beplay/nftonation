@@ -4,12 +4,25 @@ export const abi =
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "bla",
+                    "name": "tonation",
                     "type": "address"
                 }
             ],
             "stateMutability": "nonpayable",
             "type": "constructor"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "TokenReceived",
+            "type": "event"
         },
         {
             "anonymous": false,
@@ -25,8 +38,73 @@ export const abi =
             "type": "event"
         },
         {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "VotingDuration",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "VotingStarted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "WinnerToken",
+            "type": "event"
+        },
+        {
             "inputs": [],
-            "name": "addCurrentVoter",
+            "name": "determineWinnerAddr",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "winner_addr",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "durationMinutes",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "finishVotingProcess",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -46,9 +124,15 @@ export const abi =
         },
         {
             "inputs": [],
-            "name": "getNFT",
-            "outputs": [],
-            "stateMutability": "nonpayable",
+            "name": "getBlockTime",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -110,6 +194,19 @@ export const abi =
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "getWinnerVotes",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "num_votes",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -123,7 +220,7 @@ export const abi =
                 },
                 {
                     "internalType": "uint256",
-                    "name": "",
+                    "name": "_tokenId",
                     "type": "uint256"
                 },
                 {
@@ -140,7 +237,7 @@ export const abi =
                     "type": "bytes4"
                 }
             ],
-            "stateMutability": "pure",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -202,19 +299,6 @@ export const abi =
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "to",
-                    "type": "address"
-                }
-            ],
-            "name": "sendNFT",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
                     "name": "_receiver",
                     "type": "address"
                 }
@@ -245,16 +329,35 @@ export const abi =
         },
         {
             "inputs": [],
-            "name": "toggleVotingProcess",
+            "name": "startTime",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "_durationMinutes",
+                    "type": "uint256"
+                }
+            ],
+            "name": "startVoting",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
         },
         {
             "inputs": [],
-            "name": "updateVoteOpen",
+            "name": "transferToken",
             "outputs": [],
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
