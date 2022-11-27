@@ -93,3 +93,14 @@
       font-size: calc(3.375rem * 0.75);
     }
   }
+
+  @media all and (max-height: 768px) {
+       
+    .countdown li {
+      font-size: calc(1.125rem * 0.75);
+    }
+    
+    .countdown li span {
+      font-size: calc(3.375rem * 0.75);
+    }
+  }

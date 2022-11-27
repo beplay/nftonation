@@ -91,6 +91,33 @@
 }
 
 /* ---- MEDIA QUERIES ---- */
+@media screen and (max-height: 768px) {
+    .org-card {
+        width: 22rem;
+    }
+
+    .org-image {
+        width: 21rem;
+        height: 21rem;
+    }
+
+    .votes-number-wwf,
+    .votes-number-unicef,
+    .votes-number-redcross {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .card-info {
+        padding: 0.5rem;
+    }
+
+    .card-btn {
+        width: 100%;
+    }
+}
+
+
 @media screen and (max-width: 1250px) {
     .org-card {
         width: 15rem;
