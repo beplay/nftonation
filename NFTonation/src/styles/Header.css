@@ -19,6 +19,7 @@
 .nft-display .App-logo {
     max-width: 100%;
     height: auto;
+    margin-left: 10%;
 }
 
 #contract-timer {
@@ -92,15 +93,19 @@
     .countdown li span {
       font-size: calc(3.375rem * 0.75);
     }
-  }
+}
 
-  @media all and (max-height: 768px) {
-       
+
+@media all and (max-height: 768px) {
+    .countdown {
+        width: 65%;;
+    }   
+
     .countdown li {
-      font-size: calc(1.125rem * 0.75);
+      font-size: calc(1.125rem * 0.55);
     }
     
     .countdown li span {
-      font-size: calc(3.375rem * 0.75);
+      font-size: calc(3.375rem * 0.55);
     }
-  }
+}

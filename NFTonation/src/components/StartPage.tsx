@@ -205,7 +205,7 @@ export function StartPage(): ReactElement {
                                    target="_blank" rel="noreferrer">WEBSITE</a>
                             </div>
                         </div>
-                        <button className="card-btn btn-wwf" onClick={voteWWF}>VOTE</button>
+                        <button className="card-btn btn-wwf" onClick={voteWWF}><span>VOTE</span></button>
                     </div>
                     <div className="org-card">
                         <img className="org-image" src={unicef} alt="unicef logo"/>
@@ -220,7 +220,7 @@ export function StartPage(): ReactElement {
                                 <a className="org-website" href="https://www.unicef.org/" target="_blank" rel="noreferrer">WEBSITE</a>
                             </div>
                         </div>
-                        <button className="card-btn btn-unicef" onClick={voteUnicef}>VOTE</button>
+                        <button className="card-btn btn-unicef" onClick={voteUnicef}><span>VOTE</span></button>
                     </div>
                     <div className="org-card">
                         <img className="org-image" src={redcross} alt="redcross logo"/>
@@ -235,7 +235,7 @@ export function StartPage(): ReactElement {
                                 <a className="org-website" href="https://www.redcross.ch/en" target="_blank" rel="noreferrer">WEBSITE</a>
                             </div>
                         </div>
-                        <button className="card-btn btn-redcross" onClick={voteRedCross}>VOTE</button>
+                        <button className="card-btn btn-redcross" onClick={voteRedCross}><span>VOTE</span></button>
                     </div>
                 </div>
                 <div className="controls">

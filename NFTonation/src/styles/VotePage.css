@@ -1,3 +1,9 @@
+:root {
+    --pink:#ff89ca;
+    --yellow:#ffce2f;
+    --blue:#7cabff;
+}
+
 .vote-page {
     display: flex;
     align-items: center;
@@ -8,9 +14,11 @@
 
 .org-card {
     width: 25rem;
-    border: 2px solid black;
+    border-style: solid;
+    border-width: 5px;
+    border-image: linear-gradient(45deg, var(--pink), var(--yellow), var(--blue)) 1;
     overflow: hidden;
-    box-shadow: 15px 15px 6px lightgray;
+    box-shadow: 10px 10px 8px lightgray;
     transition: all 0.5ms ease;
     margin-bottom: 5rem;
 }
@@ -26,9 +34,10 @@
 .card-info {
     display: flex;
     justify-content: space-evenly;
-    background: grey;
+    background: rgb(164, 160, 160);
     color: black;
     padding: 2rem 0;
+    border-top: 2px solid black;
 }
 
 .org-votes {
@@ -61,6 +70,11 @@
     justify-content: center;
 }
 
+.org-info a {
+    color: var(--yellow);
+    text-decoration: none;
+}
+
 .org-name {
     font-size: 1.6rem;
     font-weight: 700;
@@ -80,8 +94,36 @@
     font-weight: 600;
     padding: 1.5rem 0;
     color: black;
-    cursor: pointer;
     border-top: 2px solid black;
+}
+
+.card-btn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+
+.card-btn span:after {
+    content: '\2713';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+  
+.card-btn:hover span {
+    padding-right: 25px;
+}
+  
+.card-btn:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.card-btn span:focus {
+    content: 'VOTED';
 }
 
 .btn-wwf,
