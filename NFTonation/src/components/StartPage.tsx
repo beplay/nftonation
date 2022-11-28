@@ -16,7 +16,7 @@ import logo from '../images/NFTonation.png';
 
 export function StartPage(): ReactElement {
 
-    const contractAddress = "0x9A676e781A523b5d0C0e43731313A708CB607508";
+    const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
     const ethereum = (window as any).ethereum;
     const [ethAddress, setEthAddress] = useState<string | null>(null);
@@ -32,8 +32,25 @@ export function StartPage(): ReactElement {
     const [numVoteUnicef, setNumVoteUnicef] = useState<number>(0)
     const [numVoteRedCross, setNumVoteRedCross] = useState<number>(0)
 
-    contract_ro?.on("VoteSubmitted", () => {
+    contract_ro?.on("VoteSubmitted", (voted) => {
+        console.log(voted)
         updateVoteCount()
+    })
+
+    contract_ro?.on("WinnerToken", (newTokOwner: BigNumber) => {
+        console.log('new token owner', newTokOwner.toString())
+    })
+
+    contract_ro?.on("VotingStarted", (startTime: BigNumber) => {
+        console.log('start time', startTime.toNumber())
+    })
+
+    contract_ro?.on("VotingDuration", (duration: BigNumber) => {
+        console.log('duration in minutes', duration.toNumber())
+    })
+
+    contract_ro?.on("TokenReceived", (tokenId: BigNumber) => {
+        console.log('token id received', tokenId.toNumber())
     })
 
     async function updateVoteCount(){
@@ -61,11 +78,6 @@ export function StartPage(): ReactElement {
         await getNonce()
     }
 
-    function toggleVoteProcess() {
-        setVoteInProgress(!voteInProgress)
-        contract_rw?.toggleVotingProcess()
-    }
-
     function resetVoteStatus() {
         contract_rw?.resetVoteStatus()
     }
@@ -74,10 +86,6 @@ export function StartPage(): ReactElement {
     async function getAllVoters() {
         let entries = await contract_rw?.getAllVoters()
         console.log(entries)
-    }
-
-    function addNewVoter() {
-        contract_rw?.addCurrentVoter()
     }
 
     function voteWWF() {
@@ -90,6 +98,10 @@ export function StartPage(): ReactElement {
 
     function voteRedCross() {
         contract_rw?.vote("Red Cross")
+    }
+
+    function finishAndTransfer() {
+        contract_rw?.finishVotingProcess()
     }
 
     async function getNonce() {
@@ -228,16 +240,6 @@ export function StartPage(): ReactElement {
                 </div>
                 <div className="controls">
                     <div>
-                        <button onClick={addNewVoter}>Add me as a Voter</button>
-                    </div>
-                    <div>
-                        <button onClick={toggleVoteProcess}>Toggle Vote</button>
-                        <output>{voteInProgress ? "Vote active" : "Vote stopped"}</output>
-                    </div>
-                    <div>
-                        <button>Transfer NFT</button>
-                    </div>
-                    <div>
                         <button onClick={toggleView}>Toggle View</button>
                     </div>
                     <div>
@@ -251,6 +253,9 @@ export function StartPage(): ReactElement {
                     </div>
                     <div>
                         <button onClick={getNonce}>Show Nonce</button>
+                    </div>
+                    <div>
+                        <button onClick={finishAndTransfer}>Finish Voting and Transfer Token</button>
                     </div>
                 </div>
             </div>
