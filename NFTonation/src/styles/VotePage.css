@@ -4,6 +4,10 @@
     --blue:#7cabff;
 }
 
+html {
+    height: 100%;
+}
+
 .vote-page {
     display: flex;
     align-items: center;
@@ -20,6 +24,7 @@
     overflow: hidden;
     box-shadow: 7px 7px 7px lightgray;
     transition: all 0.5ms ease;
+    padding: 4px;
 }
 
 .org-image{
@@ -31,12 +36,12 @@
 }
 
 .card-info {
+    border-radius: 10px;
     display: flex;
     justify-content: space-evenly;
     background: rgb(164, 160, 160);
     color: black;
     padding: 2rem 0;
-    border-top: 2px solid black;
 }
 
 .org-votes {
@@ -167,7 +172,6 @@
         width: 100%;
     }
 }
-
 
 @media screen and (max-width: 1250px) {
     .org-card {

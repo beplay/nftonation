@@ -188,7 +188,11 @@ export function StartPage(): ReactElement {
                             {ethAddress ? ethAddress : "NO WALLET SELECTED"}
                         </p></div>
                     </div>
-                    <div id="navigation"></div>
+                    <div id="navigation">
+                        <div>
+                            <button id="finish-btn" className="" onClick={finishAndTransfer}>Finish Voting and Transfer Token</button>
+                        </div>
+                    </div>
                 </div>
                 <div className="vote-page" style={{display: showNextView ? "flex" : "none"}}>
                     <div className="wwf-div">
@@ -267,9 +271,6 @@ export function StartPage(): ReactElement {
                     </div>
                     <div>
                         <button onClick={getNonce}>Show Nonce</button>
-                    </div>
-                    <div>
-                        <button onClick={finishAndTransfer}>Finish Voting and Transfer Token</button>
                     </div>
                 </div>
             </div>

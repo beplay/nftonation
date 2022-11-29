@@ -1,5 +1,4 @@
 .vote-header {
-    height: 150px;
     display: grid;
     grid-template-areas:
     "nft countdown navigation"
@@ -52,6 +51,9 @@
 
 #navigation {
     grid-area: navigation;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #countdown-endtime {
@@ -84,6 +86,27 @@
     font-size: 4.5rem;
 }
 
+#finish-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    box-shadow: 0 1px 5px 0 #e6e9ef;
+    background: var(--blue);
+    border-radius: 99px;
+    padding: 16px 16px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 2px solid black;
+}
+
+#finish-btn:hover {
+    background: #4c7fd6;
+}
+
 @media all and (max-width: 768px) {
        
     .countdown li {
@@ -107,5 +130,23 @@
     
     .countdown li span {
       font-size: calc(3.375rem * 0.55);
+    }
+}
+
+@media screen and (max-height: 1080px) {
+    .countdown {
+        width: 65%;;
+    }   
+
+    .countdown li {
+      font-size: calc(1.125rem * 1.2);
+    }
+    
+    .countdown li span {
+      font-size: calc(3.375rem * 1.2);
+    }
+
+    #connected-wallet {
+        font-size: 30px;
     }
 }
