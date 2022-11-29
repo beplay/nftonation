@@ -191,51 +191,65 @@ export function StartPage(): ReactElement {
                     <div id="navigation"></div>
                 </div>
                 <div className="vote-page" style={{display: showNextView ? "flex" : "none"}}>
-                    <div className="org-card">
-                        <img className="org-image" src={wwf} alt="wwf logo"/>
-                        <div className="card-info">
-                            <div className="org-votes">
-                                <span className="votes-number-wwf">{numVoteWWF}</span>
-                                <span className="votes-text">VOTES</span>
-                            </div>
-                            <div className="line"></div>
-                            <div className="org-info">
-                                <span className="org-name">WWF</span>
-                                <a className="org-website" href="https://www.worldwildlife.org/"
-                                   target="_blank" rel="noreferrer">WEBSITE</a>
+                    <div className="wwf-div">
+                        <div className="org-card">
+                            <img className="org-image" src={wwf} alt="wwf logo"/>
+                            <div className="card-info">
+                                <div className="org-votes">
+                                    <span className="votes-number-wwf">{numVoteWWF}</span>
+                                    <span className="votes-text">VOTES</span>
+                                </div>
+                                <div className="line"></div>
+                                <div className="org-info">
+                                    <span className="org-name">WWF</span>
+                                    <a className="org-website" href="https://www.worldwildlife.org/"
+                                    target="_blank" rel="noreferrer">WEBSITE</a>
+                                </div>
                             </div>
                         </div>
-                        <button className="card-btn btn-wwf" onClick={voteWWF}><span>VOTE</span></button>
+                        <div className="button-div">
+                            <button className="card-btn btn-wwf" onClick={voteWWF}><span>VOTE</span></button>
+                        </div>                        
                     </div>
-                    <div className="org-card">
-                        <img className="org-image" src={unicef} alt="unicef logo"/>
-                        <div className="card-info">
-                            <div className="org-votes">
-                                <span className="votes-number-unicef">{numVoteUnicef}</span>
-                                <span className="votes-text">VOTES</span>
-                            </div>
-                            <div className="line"></div>
-                            <div className="org-info">
-                                <span className="org-name">UNICEF</span>
-                                <a className="org-website" href="https://www.unicef.org/" target="_blank" rel="noreferrer">WEBSITE</a>
+
+                    <div className="unicef-div">
+                        <div className="org-card">
+                            <img className="org-image" src={unicef} alt="unicef logo"/>
+                            <div className="card-info">
+                                <div className="org-votes">
+                                    <span className="votes-number-unicef">{numVoteUnicef}</span>
+                                    <span className="votes-text">VOTES</span>
+                                </div>
+                                <div className="line"></div>
+                                <div className="org-info">
+                                    <span className="org-name">UNICEF</span>
+                                    <a className="org-website" href="https://www.unicef.org/" target="_blank" rel="noreferrer">WEBSITE</a>
+                                </div>
                             </div>
                         </div>
-                        <button className="card-btn btn-unicef" onClick={voteUnicef}><span>VOTE</span></button>
+                        <div className="button-div">
+                            <button className="card-btn btn-unicef" onClick={voteUnicef}><span>VOTE</span></button>
+                        </div>
                     </div>
-                    <div className="org-card">
-                        <img className="org-image" src={redcross} alt="redcross logo"/>
-                        <div className="card-info">
-                            <div className="org-votes">
-                                <span className="votes-number-redcross">{numVoteRedCross}</span>
-                                <span className="votes-text">VOTES</span>
-                            </div>
-                            <div className="line"></div>
-                            <div className="org-info">
-                                <span className="org-name">Red-Cross</span>
-                                <a className="org-website" href="https://www.redcross.ch/en" target="_blank" rel="noreferrer">WEBSITE</a>
+
+                    <div className="redcross-div">
+                        <div className="org-card">
+                            <img className="org-image" src={redcross} alt="redcross logo"/>
+                            <div className="card-info">
+                                <div className="org-votes">
+                                    <span className="votes-number-redcross">{numVoteRedCross}</span>
+                                    <span className="votes-text">VOTES</span>
+                                </div>
+                                <div className="line"></div>
+                                <div className="org-info">
+                                    <span className="org-name">Red-Cross</span>
+                                    <a className="org-website" href="https://www.redcross.ch/en" target="_blank" rel="noreferrer">WEBSITE</a>
+                                </div>
                             </div>
                         </div>
-                        <button className="card-btn btn-redcross" onClick={voteRedCross}><span>VOTE</span></button>
+                        <div className="button-div">
+                            <button className="card-btn btn-redcross" onClick={voteRedCross}><span>VOTE</span></button>
+                        </div>
                     </div>
                 </div>
                 <div className="controls">
