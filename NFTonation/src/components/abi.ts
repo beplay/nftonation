@@ -21,6 +21,19 @@ export const abi =
                     "type": "uint256"
                 }
             ],
+            "name": "TokenBurned",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
             "name": "TokenReceived",
             "type": "event"
         },
@@ -30,7 +43,7 @@ export const abi =
                 {
                     "indexed": false,
                     "internalType": "string",
-                    "name": "voted",
+                    "name": "",
                     "type": "string"
                 }
             ],
@@ -45,14 +58,7 @@ export const abi =
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
-                }
-            ],
-            "name": "VotingDuration",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
+                },
                 {
                     "indexed": false,
                     "internalType": "uint256",
@@ -71,55 +77,34 @@ export const abi =
                     "internalType": "address",
                     "name": "",
                     "type": "address"
-                }
-            ],
-            "name": "WinnerToken",
-            "type": "event"
-        },
-        {
-            "inputs": [],
-            "name": "determineWinnerAddr",
-            "outputs": [
+                },
                 {
+                    "indexed": false,
                     "internalType": "address",
-                    "name": "winner_addr",
+                    "name": "",
                     "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "durationMinutes",
-            "outputs": [
+                },
                 {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
                 }
             ],
-            "stateMutability": "view",
-            "type": "function"
+            "name": "Winner",
+            "type": "event"
         },
         {
             "inputs": [],
             "name": "finishVotingProcess",
             "outputs": [],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getAllVoters",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "entries",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -136,23 +121,10 @@ export const abi =
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "getOrgAddLength",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "inputs": [
                 {
                     "internalType": "string",
-                    "name": "org_name",
+                    "name": "_org_name",
                     "type": "string"
                 }
             ],
@@ -169,20 +141,7 @@ export const abi =
         },
         {
             "inputs": [],
-            "name": "getVoteCount",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "vote_count",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getVoterAddLength",
+            "name": "getOrgAddrLength",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -195,12 +154,12 @@ export const abi =
         },
         {
             "inputs": [],
-            "name": "getWinnerVotes",
+            "name": "getVoteCount",
             "outputs": [
                 {
-                    "internalType": "uint256",
-                    "name": "num_votes",
-                    "type": "uint256"
+                    "internalType": "string",
+                    "name": "vote_count",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",
@@ -289,73 +248,29 @@ export const abi =
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "resetVoteStatus",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_receiver",
-                    "type": "address"
-                }
-            ],
-            "name": "setReceiver",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "owner",
-                    "type": "address"
-                }
-            ],
-            "name": "showNFTBal",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "startTime",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "inputs": [
                 {
                     "internalType": "uint256",
-                    "name": "_durationMinutes",
+                    "name": "_days",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_hours",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_minutes",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_seconds",
                     "type": "uint256"
                 }
             ],
-            "name": "startVoting",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "transferToken",
+            "name": "setDuration",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -371,49 +286,6 @@ export const abi =
             "name": "vote",
             "outputs": [],
             "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "voter_addresses",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "voters",
-            "outputs": [
-                {
-                    "internalType": "bool",
-                    "name": "valid",
-                    "type": "bool"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "voted",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
             "type": "function"
         }
     ]
