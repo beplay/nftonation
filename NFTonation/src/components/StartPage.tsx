@@ -16,14 +16,12 @@ import logo from '../images/NFTonation.png';
 
 export function StartPage(): ReactElement {
 
-    const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+    const contractAddress = "0x70e0bA845a1A0F2DA3359C97E0285013525FFC49";
 
     const ethereum = (window as any).ethereum;
     const [ethAddress, setEthAddress] = useState<string | null>(null);
-    const [ethBalance, setEthBalance] = useState<BigNumber>(BigNumber.from(0));
     const [showNextView, setShowNextView] = useState<boolean>(false)
     const [nonce, setNonce] = useState<number>(0)
-    const [voteInProgress, setVoteInProgress] = useState<boolean>(false)
     const [signer, setSigner] = useState<Signer>();
     const [contract_rw, setContrRWrite] = useState<Contract>()
     const [contract_ro, setContrROnly] = useState<Contract>()
@@ -31,30 +29,45 @@ export function StartPage(): ReactElement {
     const [numVoteWWF, setNumVoteWWF] = useState<number>(0)
     const [numVoteUnicef, setNumVoteUnicef] = useState<number>(0)
     const [numVoteRedCross, setNumVoteRedCross] = useState<number>(0)
+    const [days, setDays] = useState<number>(0)
+    const [hours, setHours] = useState<number>(0)
+    const [minutes, setMinutes] = useState<number>(0)
+    const [seconds, setSeconds] = useState<number>(0)
+    const [startTime, setStartTime] = useState<number>(0)
+    const [duration, setDuration] = useState<number>(0)
+
 
     contract_ro?.on("VoteSubmitted", (voted) => {
-        console.log(voted)
+        console.log('voted', voted)
         updateVoteCount()
     })
 
-    contract_ro?.on("WinnerToken", (newTokOwner: BigNumber) => {
+    contract_ro?.on("Winner", (newTokOwner: BigNumber, winnerAddr: BigNumber,
+                                             winnerName: BigNumber, votes: BigNumber) => {
         console.log('new token owner', newTokOwner.toString())
+        console.log('winner address', winnerAddr.toString())
+        console.log('winner name', winnerName.toString())
+        console.log('votes', votes.toNumber())
     })
 
-    contract_ro?.on("VotingStarted", (startTime: BigNumber) => {
+    contract_ro?.on("VotingStarted", (startTime: BigNumber, durationSecs: BigNumber) => {
+        setStartTime(startTime.toNumber())
+        setDuration(durationSecs.toNumber())
+        showDeadline()
         console.log('start time', startTime.toNumber())
-    })
-
-    contract_ro?.on("VotingDuration", (duration: BigNumber) => {
-        console.log('duration in minutes', duration.toNumber())
+        console.log('duration in seconds', durationSecs.toNumber())
     })
 
     contract_ro?.on("TokenReceived", (tokenId: BigNumber) => {
         console.log('token id received', tokenId.toNumber())
     })
 
+    contract_ro?.on("TokenBurned", (tokenId: BigNumber) => {
+        console.log('token id burned', tokenId.toNumber())
+    })
+
     async function updateVoteCount(){
-        let orgAddrLength = await contract_ro?.getOrgAddLength() as BigNumber
+        let orgAddrLength = await contract_ro?.getOrgAddrLength() as BigNumber
         for (let i = 0; i < orgAddrLength.toNumber(); i++) {
             let orgAddr = await contract_ro?.org_addresses(i)
             let orgs = await contract_ro?.orgs(orgAddr)
@@ -70,22 +83,26 @@ export function StartPage(): ReactElement {
         console.log("vote count updated")
     }
 
+    function calcEndTime() {
+        return (startTime + duration) * 1000
+    }
+
+    function showDeadline() {
+        console.log('end time', calcEndTime())
+        let deadline = new Date(calcEndTime())
+        setDays(deadline.getDate())
+        setHours(deadline.getUTCHours() + 1)
+        setMinutes(deadline.getUTCMinutes())
+        setSeconds(deadline.getUTCSeconds())
+        console.log('deadline', deadline)
+    }
+
     async function setupContracts(): Promise<void> {
         const provider = await new providers.Web3Provider(ethereum)
         setSigner(provider.getSigner())
         setContrROnly(new ethers.Contract(contractAddress, abi, provider))
         setContrRWrite(new ethers.Contract(contractAddress, abi, signer))
         await getNonce()
-    }
-
-    function resetVoteStatus() {
-        contract_rw?.resetVoteStatus()
-    }
-
-
-    async function getAllVoters() {
-        let entries = await contract_rw?.getAllVoters()
-        console.log(entries)
     }
 
     function voteWWF() {
@@ -115,11 +132,11 @@ export function StartPage(): ReactElement {
 
     function toggleView() {
         setShowNextView(!showNextView)
+        updateVoteCount()
     }
 
     async function connectMetamaskWallet(): Promise<void> {
         setEthAddress(null);
-        setEthBalance(BigNumber.from(0));
         ethereum
             .request({
                 method: "eth_requestAccounts",
@@ -127,6 +144,7 @@ export function StartPage(): ReactElement {
             .then((accounts: string[]) => {
                 setEthAddress(accounts[0]);
                 setupContracts()
+                updateVoteCount()
             })
             .catch((error: any) => {
                 alert(`Something went wrong: ${error}`);
@@ -176,10 +194,10 @@ export function StartPage(): ReactElement {
                         <div className="countdown">
                             <p id="countdown-endtime">endtime</p>
                             <ul>
-                                <li><span id="days">00</span>days</li>
-                                <li><span id="hours">00</span>Hours</li>
-                                <li><span id="minutes">00</span>Minutes</li>
-                                <li><span id="seconds">00</span>Seconds</li>
+                                <li><span id="days">{days}</span>days</li>
+                                <li><span id="hours">{hours}</span>Hours</li>
+                                <li><span id="minutes">{minutes}</span>Minutes</li>
+                                <li><span id="seconds">{seconds}</span>Seconds</li>
                             </ul>
                         </div>
                     </div>
@@ -261,13 +279,7 @@ export function StartPage(): ReactElement {
                         <button onClick={toggleView}>Toggle View</button>
                     </div>
                     <div>
-                        <button onClick={resetVoteStatus}>Reset Vote Status</button>
-                    </div>
-                    <div>
-                        <button onClick={getAllVoters}>Log all Voters</button>
-                    </div>
-                    <div>
-                        <button onClick={updateVoteCount}>Get Vote Count</button>
+                        <button onClick={showDeadline}>Update timer</button>
                     </div>
                     <div>
                         <button onClick={getNonce}>Show Nonce</button>
