@@ -16,7 +16,7 @@ import logo from '../images/NFTonation.png';
 
 export function StartPage(): ReactElement {
 
-    const contractAddress = "0x70e0bA845a1A0F2DA3359C97E0285013525FFC49";
+    const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
     const ethereum = (window as any).ethereum;
     const [ethAddress, setEthAddress] = useState<string | null>(null);
@@ -84,18 +84,53 @@ export function StartPage(): ReactElement {
     }
 
     function calcEndTime() {
-        return (startTime + duration) * 1000
+        return (startTime + duration) * 1000  // in ms
     }
 
     function showDeadline() {
         console.log('end time', calcEndTime())
         let deadline = new Date(calcEndTime())
-        setDays(deadline.getDate())
-        setHours(deadline.getUTCHours() + 1)
-        setMinutes(deadline.getUTCMinutes())
-        setSeconds(deadline.getUTCSeconds())
         console.log('deadline', deadline)
     }
+
+    let Timer = () => {
+
+        // Todo read this from contract
+        let endtime = new Date(calcEndTime())
+
+        const getTime = () => {
+            const time = (endtime.getTime() - (Date.now())) / 1000;
+            if (time > 0) {
+                setDays(Math.floor(time / (60 * 60 * 24)));
+                setHours(Math.floor((time / (60 * 60)) % 24));
+                setMinutes(Math.floor((time  / 60) % 60));
+                setSeconds(Math.floor(time % 60));
+            } else {
+                setDays(0)
+                setHours(0)
+                setMinutes(0)
+                setSeconds(0)
+            }
+        }
+
+        useEffect(() => {
+            const interval = setInterval(() => getTime(), 1000);
+
+            return () => clearInterval(interval);
+        }, []);
+
+        return (
+            <div className="countdown">
+                <ul>
+                    <li><span id="days">{days}</span>days</li>
+                    <li><span id="hours">{hours}</span>Hours</li>
+                    <li><span id="minutes">{minutes}</span>Minutes</li>
+                    <li><span id="seconds">{seconds}</span>Seconds</li>
+                </ul>
+            </div>
+        );
+    };
+
 
     async function setupContracts(): Promise<void> {
         const provider = await new providers.Web3Provider(ethereum)
@@ -191,20 +226,10 @@ export function StartPage(): ReactElement {
                         </div>
                     </div>
                     <div id="contract-timer">
-                        <div className="countdown">
-                            <p id="countdown-endtime">endtime</p>
-                            <ul>
-                                <li><span id="days">{days}</span>days</li>
-                                <li><span id="hours">{hours}</span>Hours</li>
-                                <li><span id="minutes">{minutes}</span>Minutes</li>
-                                <li><span id="seconds">{seconds}</span>Seconds</li>
-                            </ul>
-                        </div>
+                        <Timer />
                     </div>
                     <div id="connected-wallet">
-                        <div id="wallet-display"><p>
-                            {ethAddress ? ethAddress : "NO WALLET SELECTED"}
-                        </p></div>
+                        <div id="wallet-display"></div>
                     </div>
                     <div id="navigation">
                         <div>
